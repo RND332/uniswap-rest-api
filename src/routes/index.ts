@@ -11,9 +11,9 @@ function createCall(tokenIn: string | undefined, tokenOut: string | undefined, a
     return 'Invalid params';
   }
   if (!recipient) {
-    return `cd ${workDir} && ./bin/cli quote --tokenIn ${tokenIn} --tokenOut ${tokenOut} --amount ${amount} --exactIn --chainId 42161 --protocols v2,v3`;
+    return `cd ${workDir} && ./bin/cli quote --tokenIn ${tokenIn} --tokenOut ${tokenOut} --amount ${amount} --exactIn --chainId 42161 --protocols v3`;
   }
-  return `cd ${workDir} && ./bin/cli quote --tokenIn ${tokenIn} --tokenOut ${tokenOut} --amount ${amount} --exactIn --chainId 42161 --recipient ${recipient} --protocols v2,v3`;
+  return `cd ${workDir} && ./bin/cli quote --tokenIn ${tokenIn} --tokenOut ${tokenOut} --amount ${amount} --exactIn --chainId 42161 --recipient ${recipient} --protocols v3`;
 }
 
 function extractBytes(input: string): string[] {
@@ -54,7 +54,7 @@ router.get('/', (req, res) => {
     const estimateOut = parseFloat(rawDatas[3].replace('\x1B[32m\t\t', '').replace('\x1B[39m', ''));
     const callData = extractBytes(rawDatas[9]);
     const value = extractBytes(rawDatas[10]);
-    
+
     res.send({
       "pools": pools,
       "estimateOut": estimateOut,
