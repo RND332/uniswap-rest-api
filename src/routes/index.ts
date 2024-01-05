@@ -16,12 +16,12 @@ function createCall(tokenIn: string | undefined, tokenOut: string | undefined, a
   return `cd ${workDir} && ./bin/cli quote --tokenIn ${tokenIn} --tokenOut ${tokenOut} --amount ${amount} --exactIn --chainId 42161 --recipient ${recipient} --protocols v3`;
 }
 
-function extractBytes(input: string): string[] {
+function extractBytes(input: string) {
   const hexRegex = /0x[0-9a-fA-F]+/g;
   const matches = input.match(hexRegex);
 
   if (!matches) {
-    throw new Error('No hexadecimal data found in the input');
+    return '0x0';
   }
 
   return [
@@ -48,6 +48,7 @@ router.get('/', (req, res) => {
   }
 
   exec(`${createCall(tokenIn, tokenOut, amount, recipient)}`, (err, stdout, stderr) => {
+    console.log(stdout);
     const rawDatas = stdout.split('\n');
     
     const pools = extractBytes(rawDatas[1]);
